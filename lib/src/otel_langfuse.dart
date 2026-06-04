@@ -2,7 +2,6 @@
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
 import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
-import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_langfuse_suppression.dart';
 
@@ -84,96 +83,133 @@ Future<T> tracedLangfuse<T>({
   final t = tracer ?? OTel.tracerProvider().getTracer('otel_langfuse');
   final span = t.startSpan('langfuse $operation', kind: SpanKind.client);
   try {
-    span.setStringAttribute('rpc.system', 'langfuse');
-    span.setStringAttribute('rpc.method', operation);
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('rpc.system', 'langfuse')]));
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('rpc.method', operation)]));
     final r = await invoke();
     final res = r.result;
     if (res != null) {
       if (res.projectId != null) {
-        span.setStringAttribute('langfuse.project.id', res.projectId!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.project.id', res.projectId!)]));
       }
       if (res.environment != null) {
-        span.setStringAttribute('langfuse.environment', res.environment!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.environment', res.environment!)]));
       }
       if (res.surface != null) {
-        span.setStringAttribute('langfuse.surface', res.surface!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.surface', res.surface!)]));
       }
       if (res.traceId != null) {
-        span.setStringAttribute('langfuse.trace.id', res.traceId!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.trace.id', res.traceId!)]));
       }
       if (res.observationId != null) {
-        span.setStringAttribute('langfuse.observation.id', res.observationId!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString('langfuse.observation.id', res.observationId!)
+        ]));
       }
       if (res.observationType != null) {
-        span.setStringAttribute(
-            'langfuse.observation.type', res.observationType!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              'langfuse.observation.type', res.observationType!)
+        ]));
       }
       if (res.parentObservationId != null) {
-        span.setStringAttribute(
-            'langfuse.observation.parent_id', res.parentObservationId!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              'langfuse.observation.parent_id', res.parentObservationId!)
+        ]));
       }
       if (res.sessionId != null) {
-        span.setStringAttribute('langfuse.session.id', res.sessionId!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.session.id', res.sessionId!)]));
       }
       if (res.userId != null) {
-        span.setStringAttribute('langfuse.user.id', res.userId!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.user.id', res.userId!)]));
       }
       if (res.release != null) {
-        span.setStringAttribute('langfuse.release', res.release!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.release', res.release!)]));
       }
       if (res.versionTag != null) {
-        span.setStringAttribute('langfuse.version', res.versionTag!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.version', res.versionTag!)]));
       }
       if (res.promptName != null) {
-        span.setStringAttribute('langfuse.prompt.name', res.promptName!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.prompt.name', res.promptName!)]));
       }
       if (res.promptVersion != null) {
-        span.setIntAttribute('langfuse.prompt.version', res.promptVersion!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('langfuse.prompt.version', res.promptVersion!)
+        ]));
       }
       if (res.modelName != null) {
-        span.setStringAttribute('gen_ai.request.model', res.modelName!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('gen_ai.request.model', res.modelName!)]));
       }
       if (res.modelProvider != null) {
-        span.setStringAttribute('gen_ai.system', res.modelProvider!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('gen_ai.system', res.modelProvider!)]));
       }
       if (res.tokensInput != null) {
-        span.setIntAttribute('gen_ai.usage.input_tokens', res.tokensInput!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('gen_ai.usage.input_tokens', res.tokensInput!)
+        ]));
       }
       if (res.tokensOutput != null) {
-        span.setIntAttribute('gen_ai.usage.output_tokens', res.tokensOutput!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('gen_ai.usage.output_tokens', res.tokensOutput!)
+        ]));
       }
       if (res.tokensTotal != null) {
-        span.setIntAttribute('langfuse.tokens.total', res.tokensTotal!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeInt('langfuse.tokens.total', res.tokensTotal!)]));
       }
       if (res.costUsdMicros != null) {
-        span.setIntAttribute('langfuse.cost.usd_micros', res.costUsdMicros!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('langfuse.cost.usd_micros', res.costUsdMicros!)
+        ]));
       }
       if (res.scoreName != null) {
-        span.setStringAttribute('langfuse.score.name', res.scoreName!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.score.name', res.scoreName!)]));
       }
       if (res.scoreValue != null) {
-        span.setDoubleAttribute('langfuse.score.value', res.scoreValue!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeDouble('langfuse.score.value', res.scoreValue!)]));
       }
       if (res.evalName != null) {
-        span.setStringAttribute('langfuse.eval.name', res.evalName!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.eval.name', res.evalName!)]));
       }
       if (res.datasetName != null) {
-        span.setStringAttribute('langfuse.dataset.name', res.datasetName!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.dataset.name', res.datasetName!)]));
       }
       if (res.datasetItems != null) {
-        span.setIntAttribute('langfuse.dataset.items', res.datasetItems!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeInt('langfuse.dataset.items', res.datasetItems!)]));
       }
       if (res.statusCode != null) {
-        span.setIntAttribute('http.response.status_code', res.statusCode!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeInt('http.response.status_code', res.statusCode!)]));
       }
       if (res.errorCode != null) {
-        span.setStringAttribute('langfuse.error.code', res.errorCode!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('langfuse.error.code', res.errorCode!)]));
       }
       final fail = res.errorCode != null ||
           (res.statusCode != null && res.statusCode! >= 400);
       if (fail) {
-        span.setStringAttribute(
-            ErrorResource.errorType.key, res.errorCode ?? 'langfuse.error');
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              ErrorResource.errorType.key, res.errorCode ?? 'langfuse.error')
+        ]));
         span.setStatus(SpanStatusCode.Error, res.errorMessage);
       }
     }
